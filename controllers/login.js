@@ -1,8 +1,3 @@
-// grant JWT access token send back in body
-// create refresh token,store in DB and send back in cookie
-// res success
-// handle errors
-
 const jwt = require('jsonwebtoken');
 const bcryt = require('bcrypt');
 const User = require('../model/user');

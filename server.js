@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 4000;
 const mongoose = require('mongoose')
 const mongoConnect = require('./config/mongo')
 const verifyJWT = require('./middleware/verifyJWT');
+const { logError } = require('./controllers/logHandler');
+
 require('dotenv').config();
 
 mongoConnect()
@@ -24,7 +26,8 @@ app.get('/', verifyJWT, (req,res)=>{
 res.status(200).json({message:'cleared jwt', user:req.user})
 })
 app.use((err,req,res,next)=>{
-    res.status(500).send(err.message)
+    logError(req,err)
+    res.status(500).json({error: err.message})
 })
 
 

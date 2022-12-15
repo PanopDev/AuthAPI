@@ -1,12 +1,9 @@
-
 /// handle cookies with the same name but different users?
 const User = require('../model/user');
 
 async function handleLogout(req, res) {
   if (!req?.cookies?.refresh) {
-    return res
-      .status(200)
-      .json({ message: 'No cookie found' });
+    return res.status(200).json({ message: 'No cookie found' });
   }
 
   const refreshCookie = req?.cookies?.refresh;
@@ -19,23 +16,23 @@ async function handleLogout(req, res) {
   const foundUser = await User.findOne({ refreshToken: refreshCookie }).exec();
 
   if (!foundUser) {
-    clearCookie
-    return res.status(200).json({message:"No user found, cookie deleted"})
+    clearCookie;
+    return res.status(200).json({ message: 'No user found, cookie deleted' });
   }
 
-  console.log('foundUser', foundUser)
-  if(foundUser?.refreshToken){
+  console.log('foundUser', foundUser);
+  if (foundUser?.refreshToken) {
     foundUser.refreshToken = '';
     foundUser.save();
     clearCookie;
     return res.status(200).json({
-        message:
-        "Cookie deleted from browser & refresh token deleted from database"
-    })
+      message:
+        'Cookie deleted from browser & refresh token deleted from database',
+    });
   }
-  
-  clearCookie
-  res.status(200).json({message:"Cookie Deleted"});
+
+  clearCookie;
+  res.status(200).json({ message: 'Cookie Deleted' });
 }
 
 module.exports = handleLogout;

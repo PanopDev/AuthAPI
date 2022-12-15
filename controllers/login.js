@@ -3,6 +3,8 @@ const bcryt = require('bcrypt');
 const User = require('../model/user');
 
 async function authUser(req, res) {
+
+
   if (!req.body.username || !req.body.password) {
     return res.status(400).json({ invalid: 'Username and password required' });
   }

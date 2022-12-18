@@ -1,20 +1,31 @@
 const jwt = require('jsonwebtoken');
 const bcryt = require('bcrypt');
 const User = require('../model/user');
+const throwErr = require('../helpers/throwErr');
 
-async function authUser(req, res) {
+async function authUser(req, res, next) {
+
+  // function errupt(){
+  //   return next( Error('Username and password required',{
+  //     cause:{
+  //       message:'Username and Password required',
+  //       status:400
+  // }
+
+  
 
 
-  if (!req.body.username || !req.body.password) {
-    return res.status(400).json({ invalid: 'Username and password required' });
+  if (!req.body.username || !req.body.password) { 
+    return throwErr('Username and Password required', 400, next)
+    // return res.status(400).json({ invalid: 'Username and password required' });
   }
 
   const username = req?.body?.username;
 
   const founduser = await User.findOne({ username }).exec();
 
-  if (!founduser) {
-    return res.status(401).json({ invalid: 'Invalid Username' });
+  if (!founduser) {      
+    return throwErr('Invalid Username', 401, next)
   }
 
   const validatePassword = await bcryt.compare(
@@ -23,7 +34,8 @@ async function authUser(req, res) {
   );
 
   if (!validatePassword) {
-    return res.status(401).json({ invalid: 'Invalid Password' });
+    return throwErr('Invalid Password', 401, next)
+    
   }
 
   req.body.password = ';)'

@@ -1,4 +1,5 @@
 /// handle cookies with the same name but different users?
+const throwErr = require('../helpers/throwErr');
 const User = require('../model/user');
 
 async function handleLogout(req, res) {
@@ -27,7 +28,7 @@ async function handleLogout(req, res) {
     clearCookie;
     return res.status(200).json({
       message:
-        'Cookie deleted from browser & refresh token deleted from database',
+        'Successfully Logged Out',
     });
   }
 

@@ -5,17 +5,22 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const User = require('../model/user')
+const throwErr = require('../helpers/throwErr');
 
-async function registerUser(req,res){
+
+async function registerUser(req,res,next){
 
     if (!req.body.username || !req.body.password)
-    {return res.status(400).json({message:"username and password required"})};
+    {return throwErr("username and password required",400,next)}
+    
 
     if(await User.findOne({email:req?.body?.email}))
-    {return res.status(400).json({invalid:"Email already used"})};
+    {return throwErr("Email already used",400,next)}
+    
 
     if(await User.findOne({username:req.body.username}))
-    {return res.status(400).json({invalid:"Username already used"})};
+    {return throwErr("Username already taken",400,next)}
+    
 
 
     try{
@@ -37,7 +42,8 @@ async function registerUser(req,res){
     })}
 
     catch(err){
-    res.status(400).json(err.message)        
+    // res.status(400).json(err.message)
+    throwErr(err.message,400,next)    
     }
 
 

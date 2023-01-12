@@ -25,7 +25,9 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
+// app.use('/messages', require('./routes/messages'))
 app.use('/logs/', require('./routes/logs'));
+
 // app.get('/', verifyJWT, (req,res)=>{
 // res.status(200).json({message:'cleared jwt', user:req.user})
 // })

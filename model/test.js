@@ -20,7 +20,7 @@ const userSchema = new Schema({
   },
   profiles: [
     {
-      type: [mongoose.SchemaTypes.ObjectId],
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'userProfile',
     },
   ],
@@ -29,13 +29,13 @@ const userSchema = new Schema({
   verified: { type: Boolean, default: false },
 });
 
+
 const userConversationsSchema = new Schema({
-  allConversations: [
-    { type: [mongoose.SchemaTypes.ObjectId], ref: 'conversation' },
-  ],
+  conversations: [{ type: mongoose.SchemaType.ObjectId, ref: 'conversation' }],
   allLastMsg: [],
-  unreadMsg: [],
+  unread: [],
 });
+
 
 const userRelationshipsSchema = new Schema({
   friends: [String],
@@ -58,6 +58,19 @@ module.exports = {
   User: mongoose.model('User', userSchema),
   UserProfile: mongoose.model('userProfile', userProfileSchema),
 };
+
+// module.exports = {
+//   User: mongoose.model('User', userSchema),
+//   UserConversations: mongoose.model(
+//     'userConversation',
+//     userConversationsSchema
+//   ),
+//   UserRelationships: mongoose.model(
+//     'userRelationship',
+//     userRelationshipsSchema
+//   ),
+//   UserProfile: mongoose.model('userProfile', userProfileSchema),
+// };
 
 // new message sent to server, message sent to database, find all users who are included in message,
 // overwrite last msg object in their db that matches ID

@@ -1,6 +1,6 @@
 const LogError = require('../model/errorlog')
 const timeStamp = require('time-stamp')
-const User = require('../model/user')
+const {User} = require('../model/user')
 const Errors = require ('../model/errorlog')
 
 

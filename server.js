@@ -12,7 +12,6 @@ const verifyJWT = require('./middleware/verifyJWT');
 const { logError } = require('./controllers/logHandler');
 const handleErrors = require('./middleware/handleErrors');
 const { socketIO } = require('./controllers/socket');
-
 require('dotenv').config();
 
 mongoConnect();
@@ -25,6 +24,8 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
+app.use(verifyJWT)
+app.use('/user/', require('./routes/userProfile'))
 // app.use('/messages', require('./routes/messages'))
 app.use('/logs/', require('./routes/logs'));
 

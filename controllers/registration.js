@@ -11,7 +11,7 @@ const {
   User,
   UserProfile,
 } = require('../model/user');
-const { conversation, messageSchema } = require('../model/message');
+// const { conversation, messageSchema } = require('../model/message');
 const throwErr = require('../helpers/throwErr');
 
 async function registerUser(req, res, next) {
@@ -46,7 +46,7 @@ async function registerUser(req, res, next) {
 
     const userProfile = await UserProfile.findOne({ username: username });
     const user = await User.findOne({ username: username });
-    user.profiles = [userProfile._id];
+    user.profiles = userProfile._id;
     await user.save();
 
     //populate syntax ref

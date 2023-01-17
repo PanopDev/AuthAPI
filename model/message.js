@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
-  conversationId: { type: [mongoose.SchemaTypes.ObjectId], required: true },
+  conversationId: [ { type: mongoose.SchemaTypes.ObjectId, required: true } ] ,
   sender: { type: String, required: true },
   recipients: { type: [String], required: true },
   message: { type: String, required: true },

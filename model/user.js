@@ -20,7 +20,7 @@ const userSchema = new Schema({
   },
   profiles: [
     {
-      type: [mongoose.SchemaTypes.ObjectId],
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'userProfile',
     },
   ],
@@ -31,7 +31,7 @@ const userSchema = new Schema({
 
 const userConversationsSchema = new Schema({
   allConversations: [
-    { type: [mongoose.SchemaTypes.ObjectId], ref: 'conversation' },
+    { type: mongoose.SchemaTypes.ObjectId, ref: 'conversation' },
   ],
   allLastMsg: [],
   unreadMsg: [],

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const throwErr = require('../helpers/throwErr');
-const User = require('../model/user');
+const {User} = require('../model/user');
 async function handleRefresh(req, res, next) {
   const cookies = req?.cookies;
 
@@ -41,7 +41,7 @@ async function handleRefresh(req, res, next) {
       { expiresIn: '10min' }
     );
 
-    res.status(200).json({ token: accessToken, foundUser });
+    res.status(200).json({ token: accessToken, username:foundUser.username, userId: foundUser._id });
   });
 }
 

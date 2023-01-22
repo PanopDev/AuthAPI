@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
 const userSchema = new Schema({
   username: {
     type: String,
@@ -24,6 +25,7 @@ const userSchema = new Schema({
       ref: 'userProfile',
     },
   ],
+  createdAt:{type:String, default: () => new Date().toLocaleString(), immutable:true },
 
   refreshToken: String,
   verified: { type: Boolean, default: false },
@@ -36,6 +38,7 @@ const userConversationsSchema = new Schema({
   allLastMsg: [],
   unreadMsg: [],
 });
+
 
 const userRelationshipsSchema = new Schema({
   friends: [String],
@@ -51,6 +54,25 @@ const userProfileSchema = new Schema({
   settings: { type: {}, default: {} },
   photos: { type: {}, default: {} },
 });
+
+userProfileSchema.statics.addConversationId = function (
+  usersArray = [''],
+  conversationID = ''
+) {
+  return this.updateMany(
+    { username: { $in: usersArray } },
+    {
+      $push: {
+        'conversations.allConversations': conversationID,
+      },
+    },
+    { new: true }
+  );
+};
+
+userProfileSchema.statics.findMultipleUsernames = function (usersArray) {
+  return this.find({ username: { $in: usersArray } });
+};
 
 module.exports = {
   userRelationshipsSchema,

@@ -1,10 +1,17 @@
-import { message, group } from "../model/message"
-
-function handlePostMessage(){
 
 
-}
-function handleGetMessages(){}
+async function createNewMessage(response,foundConversation, message) {
+    try {
+      foundConversation.addNewMessage = message;
+      await foundConversation.save();
+      foundConversation.lastMessage = foundConversation.getLastMessage;
+      await foundConversation.save();
 
+      console.log(foundConversation);
+      return response.sendStatus(201);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-export{handlePostMessage,handleGetMessages}
+module.exports= { createNewMessage }

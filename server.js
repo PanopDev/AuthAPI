@@ -12,6 +12,7 @@ const verifyJWT = require('./middleware/verifyJWT');
 const { logError } = require('./controllers/logHandler');
 const handleErrors = require('./middleware/handleErrors');
 const { socketIO } = require('./controllers/socket');
+const throwErr = require('./helpers/throwErr');
 require('dotenv').config();
 
 mongoConnect();
@@ -24,18 +25,19 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
-app.use(verifyJWT)
-app.use('/user/', require('./routes/userProfile'))
-// app.use('/messages', require('./routes/messages'))
+app.use('/user/', verifyJWT, require('./routes/userProfile'))
+app.use('/conversation', require('./routes/conversation'))
 app.use('/logs/', require('./routes/logs'));
 
 // app.get('/', verifyJWT, (req,res)=>{
 // res.status(200).json({message:'cleared jwt', user:req.user})
 // })
+app.use('*', (req,res,next)=>{throwErr('Invalid API Route', 404, next)})
 app.use('/', (req,res,next)=>{
-        socketIO(server,next,req)
+  socketIO(server,next,req)
 } )
-;
+
+
 app.use(handleErrors);
 
 mongoose.connection.once('open', () => {

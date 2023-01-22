@@ -57,7 +57,7 @@ async function authUser(req, res, next) {
     },
     process.env.ACCESS_TOKEN,
     {
-      expiresIn: '10s',
+      expiresIn: '30min',
     }
   );
 

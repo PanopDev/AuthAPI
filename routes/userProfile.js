@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const { UserProfile, User } = require('../model/user');
 const throwErr = require('../helpers/throwErr')
+const verifyJWT = require('../middleware/verifyJWT')
 
 router.get('/:username', userController);
 

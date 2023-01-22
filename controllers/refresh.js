@@ -38,7 +38,7 @@ async function handleRefresh(req, res, next) {
         user: foundUser,
       },
       process.env.ACCESS_TOKEN,
-      { expiresIn: '10min' }
+      { expiresIn: '30min' }
     );
 
     res.status(200).json({ token: accessToken, username:foundUser.username, userId: foundUser._id });

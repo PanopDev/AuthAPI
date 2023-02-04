@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
+//~~~~~~~~~~~~~~~~~~~~~~ User Schema ~~~~~~~~~~~~~~~~~~~~~~~~
 const userSchema = new Schema({
   username: {
     type: String,
@@ -25,12 +25,17 @@ const userSchema = new Schema({
       ref: 'userProfile',
     },
   ],
-  createdAt:{type:String, default: () => new Date().toLocaleString(), immutable:true },
+  createdAt: {
+    type: String,
+    default: () => new Date().toLocaleString(),
+    immutable: true,
+  },
 
   refreshToken: String,
   verified: { type: Boolean, default: false },
 });
 
+//~~~~~~~~~~~~~~~~~~~~~~ UserConversations Schema ~~~~~~~~~~~~~~~~~~~~~~~~
 const userConversationsSchema = new Schema({
   allConversations: [
     { type: mongoose.SchemaTypes.ObjectId, ref: 'conversation' },
@@ -39,7 +44,7 @@ const userConversationsSchema = new Schema({
   unreadMsg: [],
 });
 
-
+//~~~~~~~~~~~~~~~~~~~~~~ UserRelationships Schema ~~~~~~~~~~~~~~~~~~~~~~~~
 const userRelationshipsSchema = new Schema({
   friends: [String],
   blocked: [String],
@@ -47,9 +52,10 @@ const userRelationshipsSchema = new Schema({
   friendRequestsFrom: [String],
 });
 
+//~~~~~~~~~~~~~~~~~~~~~~ UserProfile Schema ~~~~~~~~~~~~~~~~~~~~~~~~
 const userProfileSchema = new Schema({
-  username: { type: String, required: true },
-  relationships: { type: userRelationshipsSchema },
+  username: { type: String, required: true, lowercase:true },
+  relationships: { type: userRelationshipsSchema},
   conversations: { type: userConversationsSchema },
   settings: { type: {}, default: {} },
   photos: { type: {}, default: {} },
@@ -70,15 +76,15 @@ userProfileSchema.statics.addConversationId = function (
   );
 };
 
-userProfileSchema.statics.findMultipleUsernames = function (usersArray) {
-  return this.find({ username: { $in: usersArray } });
+userProfileSchema.statics.findMultipleUsernames = async function (usersArray) {
+  return await this.find({ username: { $in: usersArray } });
 };
 
 module.exports = {
-  userRelationshipsSchema,
-  userConversationsSchema,
   User: mongoose.model('User', userSchema),
   UserProfile: mongoose.model('userProfile', userProfileSchema),
+  userRelationshipsSchema,
+  userConversationsSchema
 };
 
 // new message sent to server, message sent to database, find all users who are included in message,

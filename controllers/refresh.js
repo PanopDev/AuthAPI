@@ -3,7 +3,6 @@ const throwErr = require('../helpers/throwErr');
 const {User} = require('../model/user');
 async function handleRefresh(req, res, next) {
   const cookies = req?.cookies;
-
   if (!cookies?.refresh) {
     return throwErr('No token found in cookies',401,next)
     // return res.status(401).json({ invalid: 'No token found in cookies' });
@@ -14,7 +13,6 @@ async function handleRefresh(req, res, next) {
 
   if (!foundUser) {
     return throwErr('No token found in database',401,next)
-    // return res.status(401).json({ invalid: 'No token found in database' });
   }
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN, (err, decoded) => {

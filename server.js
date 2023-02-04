@@ -19,13 +19,15 @@ mongoConnect();
 
 app.use(cookieparser());
 app.use(express.json());
-app.use(cors({origin: 'http://localhost:3000',credentials:true}));
+app.use(cors({origin: ['http://10.0.0.165:3000','http://localhost:3000'],credentials:true}));
 app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
-app.use('/user/', verifyJWT, require('./routes/userProfile'))
+//reinsert verifyJWT to userroute when done testing
+app.use('/user/', require('./routes/userProfile'))
+app.use('/findUsers/', require('./routes/findUsers'))
 app.use('/conversation', require('./routes/conversation'))
 app.use('/logs/', require('./routes/logs'));
 

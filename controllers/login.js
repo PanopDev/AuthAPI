@@ -23,8 +23,8 @@ async function authUser(req, res, next) {
 
   const cookieOptions = {
     httpOnly: true,
-    sameSite: 'None',
-    secure: true,
+    // sameSite: 'None',
+    // secure: true,
     set expires(expiresIn){ this.maxAge = expiresIn }
   };
 
@@ -76,7 +76,7 @@ async function authUser(req, res, next) {
   );
 
   founduser.refreshToken = refreshToken;
-  founduser.save();
+  await founduser.save();
 
   res.cookie('refresh', refreshToken, cookieOptions);
   res.status(200).json({ token: accessToken });
